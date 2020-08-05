@@ -166,6 +166,8 @@ packet.net before the branch is merged.
 .. _Jenkins Packer Build: Vagrant-Master-Boxes-Packer-Build_
 .. _job: Vagrant-Master-Boxes-Packer-Build_
 
+.. _test_matrix:
+
 Testing matrix
 ^^^^^^^^^^^^^^
 
