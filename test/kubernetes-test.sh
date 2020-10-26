@@ -58,7 +58,7 @@ KUBERNETES_VERSION=$(kubectl version -o json | jq -r '.serverVersion | .gitVersi
 mkdir -p ${HOME}/go/src/k8s.io/
 cd ${HOME}/go/src/k8s.io/
 test -d kubernetes && rm -rfv kubernetes
-git clone https://github.com/kubernetes/kubernetes.git -b ${KUBERNETES_VERSION} --depth 1
+git clone https://github.com/jayunit100/kubernetes.git -b netpol-impl-2 --depth 1
 cd kubernetes
 
 GO_VERSION="1.15.3"
@@ -87,4 +87,4 @@ ${HOME}/go/bin/kubetest --provider=local --test \
 #  - More info at https://github.com/cilium/cilium/issues/9209
 echo "Running upstream NetworkPolicy tests"
 ${HOME}/go/bin/kubetest --provider=local --test \
-  --test_args="--ginkgo.focus=NetworkPolicy.* --e2e-verify-service-account=false --host ${KUBE_MASTER_URL} --ginkgo.skip=(should.ensure.an.IP.overlapping.both.IPBlock.CIDR.and.IPBlock.Except.is.allowed)|(should.allow.egress.access.to.server.in.CIDR.block)|(should.not.allow.access.by.TCP.when.a.policy.specifies.only.SCTP)"
+  --test_args="--ginkgo.focus=Net.*ol.* --e2e-verify-service-account=false --host ${KUBE_MASTER_URL} --ginkgo.skip=(should.ensure.an.IP.overlapping.both.IPBlock.CIDR.and.IPBlock.Except.is.allowed)|(should.allow.egress.access.to.server.in.CIDR.block)|(should.not.allow.access.by.TCP.when.a.policy.specifies.only.SCTP)"
