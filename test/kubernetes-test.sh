@@ -60,6 +60,8 @@ cd ${HOME}/go/src/k8s.io/
 test -d kubernetes && rm -rfv kubernetes
 git clone https://github.com/jayunit100/kubernetes.git -b netpol-impl-2 --depth 1
 cd kubernetes
+# print the commit date so we know we have the right one
+git show --summary  |grep commit
 
 GO_VERSION="1.15.3"
 sudo rm -fr /usr/local/go
