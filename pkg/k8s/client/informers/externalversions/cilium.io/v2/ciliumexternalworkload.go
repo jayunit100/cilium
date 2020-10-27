@@ -30,58 +30,58 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// CiliumClusterwideLocalRedirectPolicyInformer provides access to a shared informer and lister for
-// CiliumClusterwideLocalRedirectPolicies.
-type CiliumClusterwideLocalRedirectPolicyInformer interface {
+// CiliumExternalWorkloadInformer provides access to a shared informer and lister for
+// CiliumExternalWorkloads.
+type CiliumExternalWorkloadInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v2.CiliumClusterwideLocalRedirectPolicyLister
+	Lister() v2.CiliumExternalWorkloadLister
 }
 
-type ciliumClusterwideLocalRedirectPolicyInformer struct {
+type ciliumExternalWorkloadInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 }
 
-// NewCiliumClusterwideLocalRedirectPolicyInformer constructs a new informer for CiliumClusterwideLocalRedirectPolicy type.
+// NewCiliumExternalWorkloadInformer constructs a new informer for CiliumExternalWorkload type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewCiliumClusterwideLocalRedirectPolicyInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredCiliumClusterwideLocalRedirectPolicyInformer(client, resyncPeriod, indexers, nil)
+func NewCiliumExternalWorkloadInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredCiliumExternalWorkloadInformer(client, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredCiliumClusterwideLocalRedirectPolicyInformer constructs a new informer for CiliumClusterwideLocalRedirectPolicy type.
+// NewFilteredCiliumExternalWorkloadInformer constructs a new informer for CiliumExternalWorkload type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredCiliumClusterwideLocalRedirectPolicyInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredCiliumExternalWorkloadInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CiliumV2().CiliumClusterwideLocalRedirectPolicies().List(context.TODO(), options)
+				return client.CiliumV2().CiliumExternalWorkloads().List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.CiliumV2().CiliumClusterwideLocalRedirectPolicies().Watch(context.TODO(), options)
+				return client.CiliumV2().CiliumExternalWorkloads().Watch(context.TODO(), options)
 			},
 		},
-		&ciliumiov2.CiliumClusterwideLocalRedirectPolicy{},
+		&ciliumiov2.CiliumExternalWorkload{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *ciliumClusterwideLocalRedirectPolicyInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredCiliumClusterwideLocalRedirectPolicyInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *ciliumExternalWorkloadInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredCiliumExternalWorkloadInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *ciliumClusterwideLocalRedirectPolicyInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&ciliumiov2.CiliumClusterwideLocalRedirectPolicy{}, f.defaultInformer)
+func (f *ciliumExternalWorkloadInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&ciliumiov2.CiliumExternalWorkload{}, f.defaultInformer)
 }
 
-func (f *ciliumClusterwideLocalRedirectPolicyInformer) Lister() v2.CiliumClusterwideLocalRedirectPolicyLister {
-	return v2.NewCiliumClusterwideLocalRedirectPolicyLister(f.Informer().GetIndexer())
+func (f *ciliumExternalWorkloadInformer) Lister() v2.CiliumExternalWorkloadLister {
+	return v2.NewCiliumExternalWorkloadLister(f.Informer().GetIndexer())
 }

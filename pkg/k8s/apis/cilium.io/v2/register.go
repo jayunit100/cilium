@@ -31,7 +31,7 @@ const (
 
 	// CustomResourceDefinitionSchemaVersion is semver-conformant version of CRD schema
 	// Used to determine if CRD needs to be updated in cluster
-	CustomResourceDefinitionSchemaVersion = "1.22.2"
+	CustomResourceDefinitionSchemaVersion = "1.22.3"
 
 	// CustomResourceDefinitionSchemaVersionKey is key to label which holds the CRD schema version
 	CustomResourceDefinitionSchemaVersionKey = "io.cilium.k8s.crd.schema.version"
@@ -120,19 +120,19 @@ const (
 	// CLRPName is the full name of Local Redirect Policy
 	CLRPName = CLRPPluralName + "." + CustomResourceDefinitionGroup
 
-	// Cilium Cluster-wide Local Redirect Policy (CCLRP)
+	// Cilium External Workload (CEW)
 
-	// CCLRPSingularName is the singular name of Cluster wide Local Redirect Policy
-	CCLRPSingularName = "ciliumclusterwidelocalredirectpolicy"
+	// CEWSingularName is the singular name of Cilium External Workload
+	CEWSingularName = "ciliumexternalworkload"
 
-	// CCLRPPluralName is the plural name of Cluster wide Local Redirect Policy
-	CCLRPPluralName = "ciliumclusterwidelocalredirectpolicies"
+	// CEWPluralName is the plural name of Cilium External Workload
+	CEWPluralName = "ciliumexternalworkloads"
 
-	// CCLRPKindDefinition is the kind name for Cluster wide Local Redirect Policy
-	CCLRPKindDefinition = "CiliumClusterwideLocalRedirectPolicy"
+	// CEWKindDefinition is the kind name for Cilium External Workload
+	CEWKindDefinition = "CiliumExternalWorkload"
 
-	// CCLRPName is the full name of Cluster wide Local Redirect Policy
-	CCLRPName = CCLRPPluralName + "." + CustomResourceDefinitionGroup
+	// CEWName is the full name of Cilium External Workload
+	CEWName = CEWPluralName + "." + CustomResourceDefinitionGroup
 )
 
 // SchemeGroupVersion is group version used to register these objects
@@ -184,12 +184,12 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&CiliumEndpointList{},
 		&CiliumNode{},
 		&CiliumNodeList{},
+		&CiliumExternalWorkload{},
+		&CiliumExternalWorkloadList{},
 		&CiliumIdentity{},
 		&CiliumIdentityList{},
 		&CiliumLocalRedirectPolicy{},
 		&CiliumLocalRedirectPolicyList{},
-		&CiliumClusterwideLocalRedirectPolicy{},
-		&CiliumClusterwideLocalRedirectPolicyList{},
 	)
 
 	metav1.AddToGroupVersion(scheme, SchemeGroupVersion)

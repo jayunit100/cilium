@@ -51,12 +51,12 @@ func (f *genericInformer) Lister() cache.GenericLister {
 func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource) (GenericInformer, error) {
 	switch resource {
 	// Group=cilium.io, Version=v2
-	case v2.SchemeGroupVersion.WithResource("ciliumclusterwidelocalredirectpolicies"):
-		return &genericInformer{resource: resource.GroupResource(), informer: f.Cilium().V2().CiliumClusterwideLocalRedirectPolicies().Informer()}, nil
 	case v2.SchemeGroupVersion.WithResource("ciliumclusterwidenetworkpolicies"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Cilium().V2().CiliumClusterwideNetworkPolicies().Informer()}, nil
 	case v2.SchemeGroupVersion.WithResource("ciliumendpoints"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Cilium().V2().CiliumEndpoints().Informer()}, nil
+	case v2.SchemeGroupVersion.WithResource("ciliumexternalworkloads"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Cilium().V2().CiliumExternalWorkloads().Informer()}, nil
 	case v2.SchemeGroupVersion.WithResource("ciliumidentities"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Cilium().V2().CiliumIdentities().Informer()}, nil
 	case v2.SchemeGroupVersion.WithResource("ciliumlocalredirectpolicies"):

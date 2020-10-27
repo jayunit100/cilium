@@ -26,16 +26,16 @@ type FakeCiliumV2 struct {
 	*testing.Fake
 }
 
-func (c *FakeCiliumV2) CiliumClusterwideLocalRedirectPolicies() v2.CiliumClusterwideLocalRedirectPolicyInterface {
-	return &FakeCiliumClusterwideLocalRedirectPolicies{c}
-}
-
 func (c *FakeCiliumV2) CiliumClusterwideNetworkPolicies() v2.CiliumClusterwideNetworkPolicyInterface {
 	return &FakeCiliumClusterwideNetworkPolicies{c}
 }
 
 func (c *FakeCiliumV2) CiliumEndpoints(namespace string) v2.CiliumEndpointInterface {
 	return &FakeCiliumEndpoints{c, namespace}
+}
+
+func (c *FakeCiliumV2) CiliumExternalWorkloads() v2.CiliumExternalWorkloadInterface {
+	return &FakeCiliumExternalWorkloads{c}
 }
 
 func (c *FakeCiliumV2) CiliumIdentities() v2.CiliumIdentityInterface {

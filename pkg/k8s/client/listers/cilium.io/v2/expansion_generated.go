@@ -16,10 +16,6 @@
 
 package v2
 
-// CiliumClusterwideLocalRedirectPolicyListerExpansion allows custom methods to be added to
-// CiliumClusterwideLocalRedirectPolicyLister.
-type CiliumClusterwideLocalRedirectPolicyListerExpansion interface{}
-
 // CiliumClusterwideNetworkPolicyListerExpansion allows custom methods to be added to
 // CiliumClusterwideNetworkPolicyLister.
 type CiliumClusterwideNetworkPolicyListerExpansion interface{}
@@ -31,6 +27,10 @@ type CiliumEndpointListerExpansion interface{}
 // CiliumEndpointNamespaceListerExpansion allows custom methods to be added to
 // CiliumEndpointNamespaceLister.
 type CiliumEndpointNamespaceListerExpansion interface{}
+
+// CiliumExternalWorkloadListerExpansion allows custom methods to be added to
+// CiliumExternalWorkloadLister.
+type CiliumExternalWorkloadListerExpansion interface{}
 
 // CiliumIdentityListerExpansion allows custom methods to be added to
 // CiliumIdentityLister.

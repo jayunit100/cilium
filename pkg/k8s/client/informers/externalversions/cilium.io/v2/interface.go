@@ -22,12 +22,12 @@ import (
 
 // Interface provides access to all the informers in this group version.
 type Interface interface {
-	// CiliumClusterwideLocalRedirectPolicies returns a CiliumClusterwideLocalRedirectPolicyInformer.
-	CiliumClusterwideLocalRedirectPolicies() CiliumClusterwideLocalRedirectPolicyInformer
 	// CiliumClusterwideNetworkPolicies returns a CiliumClusterwideNetworkPolicyInformer.
 	CiliumClusterwideNetworkPolicies() CiliumClusterwideNetworkPolicyInformer
 	// CiliumEndpoints returns a CiliumEndpointInformer.
 	CiliumEndpoints() CiliumEndpointInformer
+	// CiliumExternalWorkloads returns a CiliumExternalWorkloadInformer.
+	CiliumExternalWorkloads() CiliumExternalWorkloadInformer
 	// CiliumIdentities returns a CiliumIdentityInformer.
 	CiliumIdentities() CiliumIdentityInformer
 	// CiliumLocalRedirectPolicies returns a CiliumLocalRedirectPolicyInformer.
@@ -49,11 +49,6 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 	return &version{factory: f, namespace: namespace, tweakListOptions: tweakListOptions}
 }
 
-// CiliumClusterwideLocalRedirectPolicies returns a CiliumClusterwideLocalRedirectPolicyInformer.
-func (v *version) CiliumClusterwideLocalRedirectPolicies() CiliumClusterwideLocalRedirectPolicyInformer {
-	return &ciliumClusterwideLocalRedirectPolicyInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
-}
-
 // CiliumClusterwideNetworkPolicies returns a CiliumClusterwideNetworkPolicyInformer.
 func (v *version) CiliumClusterwideNetworkPolicies() CiliumClusterwideNetworkPolicyInformer {
 	return &ciliumClusterwideNetworkPolicyInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
@@ -62,6 +57,11 @@ func (v *version) CiliumClusterwideNetworkPolicies() CiliumClusterwideNetworkPol
 // CiliumEndpoints returns a CiliumEndpointInformer.
 func (v *version) CiliumEndpoints() CiliumEndpointInformer {
 	return &ciliumEndpointInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// CiliumExternalWorkloads returns a CiliumExternalWorkloadInformer.
+func (v *version) CiliumExternalWorkloads() CiliumExternalWorkloadInformer {
+	return &ciliumExternalWorkloadInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
 
 // CiliumIdentities returns a CiliumIdentityInformer.

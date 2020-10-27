@@ -135,7 +135,7 @@ func (k *K8sWatcher) podsInit(k8sClient kubernetes.Interface, asyncControllers *
 		k.blockWaitGroupToSyncResources(isConnected, nil, podController.HasSynced, K8sAPIGroupPodV1Core)
 		once.Do(func() {
 			asyncControllers.Done()
-			k.k8sAPIGroups.addAPI(K8sAPIGroupPodV1Core)
+			k.k8sAPIGroups.AddAPI(K8sAPIGroupPodV1Core)
 		})
 		go podController.Run(isConnected)
 		return isConnected
@@ -164,7 +164,7 @@ func (k *K8sWatcher) podsInit(k8sClient kubernetes.Interface, asyncControllers *
 		k.blockWaitGroupToSyncResources(isConnected, nil, podController.HasSynced, K8sAPIGroupPodV1Core)
 		once.Do(func() {
 			asyncControllers.Done()
-			k.k8sAPIGroups.addAPI(K8sAPIGroupPodV1Core)
+			k.k8sAPIGroups.AddAPI(K8sAPIGroupPodV1Core)
 		})
 		go podController.Run(isConnected)
 
@@ -225,7 +225,9 @@ func (k *K8sWatcher) addK8sPodV1(pod *slim_corev1.Pod) error {
 		// called from updateK8sPodV1, the consumer will need to handle the duplicate
 		// events accordingly.
 		// GH issue #13136.
-		k.redirectPolicyManager.OnAddPod(pod)
+		if option.Config.EnableLocalRedirectPolicy {
+			k.redirectPolicyManager.OnAddPod(pod)
+		}
 	}
 
 	switch {
@@ -292,11 +294,13 @@ func (k *K8sWatcher) updateK8sPodV1(oldK8sPod, newK8sPod *slim_corev1.Pod) error
 		lrpNeedsReassign = true
 	}
 
-	oldPodReady := k8sUtils.GetLatestPodReadiness(oldK8sPod.Status)
-	newPodReady := k8sUtils.GetLatestPodReadiness(newK8sPod.Status)
+	if option.Config.EnableLocalRedirectPolicy {
+		oldPodReady := k8sUtils.GetLatestPodReadiness(oldK8sPod.Status)
+		newPodReady := k8sUtils.GetLatestPodReadiness(newK8sPod.Status)
 
-	if lrpNeedsReassign || (oldPodReady != newPodReady) {
-		k.redirectPolicyManager.OnUpdatePod(newK8sPod, lrpNeedsReassign, newPodReady == slim_corev1.ConditionTrue)
+		if lrpNeedsReassign || (oldPodReady != newPodReady) {
+			k.redirectPolicyManager.OnUpdatePod(newK8sPod, lrpNeedsReassign, newPodReady == slim_corev1.ConditionTrue)
+		}
 	}
 
 	// Nothing changed.
@@ -467,7 +471,9 @@ func (k *K8sWatcher) deleteK8sPodV1(pod *slim_corev1.Pod) error {
 		"hostIP":               pod.Status.HostIP,
 	})
 
-	k.redirectPolicyManager.OnDeletePod(pod)
+	if option.Config.EnableLocalRedirectPolicy {
+		k.redirectPolicyManager.OnDeletePod(pod)
+	}
 
 	skipped, err := k.deletePodHostData(pod)
 	switch {
